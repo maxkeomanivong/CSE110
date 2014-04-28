@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/button_forget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/enterEmail"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@id/enterEmail"
+        android:layout_marginBottom="35dp"
+        android:text="@string/button_send" />
+
+    <EditText
+        android:id="@+id/reenter_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/enterEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:textStyle="normal" />
+
+    <EditText
+        android:id="@+id/enterEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_forget"
+        android:layout_alignLeft="@+id/reenter_email"
+        android:layout_marginBottom="154dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/reenter_email"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:text="@string/enter_password" />
+
+</RelativeLayout>
