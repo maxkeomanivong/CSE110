@@ -343,10 +343,11 @@ int layout abc_simple_decor 0x7f030017
 int layout activity_display_message 0x7f030018
 int layout activity_main 0x7f030019
 int layout create_account 0x7f03001a
-int layout fragment_display_message 0x7f03001b
-int layout fragment_main 0x7f03001c
-int layout profile 0x7f03001d
-int layout support_simple_spinner_dropdown_item 0x7f03001e
+int layout feed 0x7f03001b
+int layout fragment_display_message 0x7f03001c
+int layout fragment_main 0x7f03001d
+int layout profile 0x7f03001e
+int layout support_simple_spinner_dropdown_item 0x7f03001f
 int menu main 0x7f0c0000
 int string abc_action_bar_home_description 0x7f0a0001
 int string abc_action_bar_up_description 0x7f0a0002
