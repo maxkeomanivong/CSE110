@@ -9,19 +9,23 @@ package com.learn2crack;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.learn2crack.FlyOutContainer;
 import com.learn2crack.library.UserFunctions;
 import com.learn2crack.library.DatabaseHandler;
 
 import java.util.HashMap;
 
+
 public class Main extends Activity {
     Button btnLogout;
     Button changepas;
 
-
+    FlyOutContainer root;
 
 
     /**
@@ -30,10 +34,13 @@ public class Main extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        //setContentView(R.layout.main);
 
-        changepas = (Button) findViewById(R.id.btchangepass);
-        btnLogout = (Button) findViewById(R.id.logout);
+        this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.newsfeed, null);
+		this.setContentView(root);
+        
+        changepas = (Button) findViewById(R.id.slideoutb1);
+        btnLogout = (Button) findViewById(R.id.logoutn);
 
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
@@ -75,10 +82,16 @@ public class Main extends Activity {
 /**
  * Sets user first name and last name in text view.
  **/
-        final TextView login = (TextView) findViewById(R.id.textwelcome);
-        login.setText("Welcome  "+user.get("fname"));
-        final TextView lname = (TextView) findViewById(R.id.lname);
-        lname.setText(user.get("lname"));
+       // final TextView login = (TextView) findViewById(R.id.textwelcome);
+       // login.setText("Welcome  "+user.get("fname"));
+       // final TextView lname = (TextView) findViewById(R.id.lname);
+       // lname.setText(user.get("lname"));
 
 
-    }}
+    }
+    
+	
+	public void toggleMenu(View v){
+		this.root.toggleMenu();
+	}
+}
