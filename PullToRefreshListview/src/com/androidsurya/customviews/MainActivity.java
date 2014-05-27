@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -20,9 +21,11 @@ public class MainActivity extends ListActivity {
 	private List<String> mListItems;
 	ArrayAdapterCustom adapter;
 	PullToRefreshListView listItems;
-	RssReader reader;
+	XMLHandler reader;
+	int counter=1;
 	String RSSfeed = "http://foodobjectorienteddesign.com/feed/datesort.php";
 	ArrayList <String> links = new ArrayList<String>();
+	ArrayList <String> ids = new ArrayList<String>();
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
 	/** Called when the activity is first created. */
 	@Override
@@ -30,14 +33,18 @@ public class MainActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pulltorefresh);
 
-		reader = new RssReader();
-        links = reader.getLinks(RSSfeed);
-       
+		//new GetDataTask().execute();
+		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+		    new GetDataTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		} else {
+		    new GetDataTask().execute();
+		}
+        
         //initializes the first news feed contents
         for(int x=0;x<links.size();x++)
         {
         	Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-        	item.add(new NewsFeedItem(links.get(x)));
+        	item.add(new NewsFeedItem(links.get(x),ids.get(x)));
         }
         
         //the adapter for the listview,passing in this, the layout for each row in
@@ -49,24 +56,19 @@ public class MainActivity extends ListActivity {
         listItems.setAdapter(adapter);
         listItems.setOnScrollListener(listItems);
         listItems.setOnItemClickListener(new ListViewItemListener());
-        
+        System.err.println("THINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
 		// Set a listener to be invoked when the list should be refreshed.
 		
 				listItems.setOnRefreshListener(new OnRefreshListener() {
 					@Override
 					public void onRefresh() {
 						// Do work to refresh the list here.
-						new GetDataTask().execute();
-						adapter.clear();
-						reader = new RssReader();
-				        links = reader.getLinks(RSSfeed);
-						//adapter.add(new NewsFeedItem(links.get(3)));
-			    		for(int x=0;x<links.size();x++)
-			            {
-			            	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-			            	adapter.add(new NewsFeedItem(links.get(x)));
-			            }
-			    		adapter.notifyDataSetChanged();
+						//new GetDataTask().execute();
+						if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+						    new GetDataTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+						} else {
+						    new GetDataTask().execute();
+						}
 					}
 				});
 
@@ -77,11 +79,24 @@ public class MainActivity extends ListActivity {
 		@Override
 		protected String[] doInBackground(Void... params) {
 			// Simulates a background job.
+			counter=0;
+			String count= ""+counter;
+			reader = new XMLHandler();
+	        reader.execPHP(RSSfeed+"?start="+count);
+	        while(reader.getFlag()==0)
+	        {
+	           links = reader.getURLS();
+	           ids = reader.getIDs();
+	        }
+	        reader.resetFlag();
+		      
+			//adapter.add(new NewsFeedItem(links.get(3)));
+    		/*
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 
-			}
+			}*/
 			//adapter.clear();
     		/*
     		for(int x=0;x<links.size();x++)
@@ -97,8 +112,17 @@ public class MainActivity extends ListActivity {
 		protected void onPostExecute(String[] result) {
 			//mListItems.add(0, "Added new item after refresh...");
 			// Call onRefreshComplete when the list has been refreshed.
-			((PullToRefreshListView) getListView()).onRefreshComplete();
-
+			
+			adapter.clear();
+			for(int x=0;x<links.size();x++)
+            {
+				counter++;
+            	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
+            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x)));
+            }
+    		adapter.notifyDataSetChanged();
+    		listItems.setCount(counter);
+    		((PullToRefreshListView) getListView()).onRefreshComplete();
 			super.onPostExecute(result);
 		}
 	}

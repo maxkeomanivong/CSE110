@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,9 +31,13 @@ import com.androidsurya.pulltorefresh.R;
 public class PullToRefreshListView extends ListView implements OnScrollListener {
 
 	View footer;
+	int counter=1;
 	boolean loading=false;
+	XMLHandler reader;
+	String RSSfeed = "http://foodobjectorienteddesign.com/feed/datesort.php";
 	ArrayAdapterCustom adap;
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
+	ArrayList <String> ids = new ArrayList<String>();
 	ArrayList <String> links = new ArrayList<String>(Arrays.asList(new String[] {"http://www.foodobjectorienteddesign.com/imageupload/wes/img/123021.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/CUhouv9.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/155597.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/Horse.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/Koala.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/tumblr_mykp0lkFiX1ruj0bpo1_1280.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/zljUGM0.jpg","http://lh5.ggpht.com/_mrb7w4gF8Ds/TCpetKSqM1I/AAAAAAAAD2c/Qef6Gsqf12Y/s144-c/_DSC4374%20copy.jpg",
 			   "http://lh5.ggpht.com/_Z6tbBnE-swM/TB0CryLkiLI/AAAAAAAAVSo/n6B78hsDUz4/s144-c/_DSC3454.jpg",
 			   "http://lh3.ggpht.com/_GEnSvSHk4iE/TDSfmyCfn0I/AAAAAAAAF8Y/cqmhEoxbwys/s144-c/_MG_3675.jpg",
@@ -295,17 +301,26 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         // "Release to refresh..." and flip the arrow drawable.
     	
     	int last = firstVisibleItem+visibleItemCount;
-		if(last>= totalItemCount && !loading && totalItemCount>2)
+    	System.err.println("loading: "+loading+" last "+last+" totalItemCount "+totalItemCount);
+		if(last>= totalItemCount && !loading && totalItemCount>4)
 		{
+			loading=true;
+			System.err.println("Adding more ELMENTS TO THE LIST");
+			if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+			    new GetDataTask2().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			} else {
+			    new GetDataTask2().execute();
+			}
+			
 			//this.addFooterView(footer);
-			for(int x=0;x<links.size();x++)
+			/*for(int x=0;x<links.size();x++)
 	        {
 	        	item.add(new NewsFeedItem(links.get(x)));
 	        }
 			Log.d("Like a baws","BAWSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSs");
 			//adap = (ArrayAdapterCustom) getAdapter();
 			adap.addAll(item);
-			adap.notifyDataSetChanged();
+			adap.notifyDataSetChanged();*/
 			
 		}
 	 if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL
@@ -350,6 +365,11 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 		
     }
 
+    public void setCount(int cou)
+    {
+    	counter=cou;
+    }
+    
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         mCurrentScrollState = scrollState;
 
@@ -438,4 +458,78 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
          */
         public void onRefresh();
     }
+    
+    
+    
+    
+    
+	private class GetDataTask2 extends AsyncTask<Void, Void, String[]> {
+
+		@Override
+		protected String[] doInBackground(Void... params) {
+			// Simulates a background job.
+			String count= ""+counter;
+			reader = new XMLHandler();
+	        reader.execPHP(RSSfeed+"?start="+count);
+	        while(reader.getFlag()==0)
+	        {
+	           links = reader.getURLS();
+	           ids = reader.getIDs();
+	        }
+	        if(links==null)
+	        {
+	        	String[] arr= {"null"};
+	        	return (arr);
+	        }
+	        reader.resetFlag();
+		      
+			//adapter.add(new NewsFeedItem(links.get(3)));
+    		/*
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+
+			}*/
+			//adapter.clear();
+    		/*
+    		for(int x=0;x<links.size();x++)
+            {
+            	Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
+            	adapter.add(new NewsFeedItem(links.get(x)));
+            }
+    		adapter.notifyDataSetChanged();*/
+			return mStrings;
+		}
+
+		@Override
+		protected void onPostExecute(String[] result) {
+			//mListItems.add(0, "Added new item after refresh...");
+			// Call onRefreshComplete when the list has been refreshed.
+			if(result[0]=="null")
+			{
+				super.onPostExecute(result);
+				loading=false;
+			}
+			else
+			{
+			for(int x=0;x<links.size();x++)
+            {   counter++;;
+            	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
+            	adap.add(new NewsFeedItem(links.get(x),ids.get(x)));
+            }
+    		adap.notifyDataSetChanged();
+    		
+    		//((PullToRefreshListView) getListView()).onRefreshComplete();
+			super.onPostExecute(result);
+			loading=false;
+			}
+		}
+	}
+
+	private String[] mStrings = { "Andaman and Nicobar Islands",
+			"Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
+			"Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
+			"Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala",
+			"Madhya Pradesh", "Maharashtra", "Manipur" };
 }
+

@@ -28,10 +28,12 @@ public class RssReader{
 	String feedRSS = null;
 	ArrayList<String> links = new ArrayList<String>();
     public ArrayList<String> getLinks(String RSS)
-    {
+    {System.err.println("4");
     	feedRSS = RSS;
     	try {
+    		System.err.println("4.5");
 			links = new XMLParser().execute().get();
+			System.err.println("5");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,6 +41,7 @@ public class RssReader{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	System.err.println("6");
     	return links;
     }
 	public String getRssFeed(String FeedURL) throws IOException {

@@ -17,19 +17,24 @@ public class NewsFeedItem {
 		public Bitmap newBitmap = null;
 		Bitmap scaledBitmap;
 		public ImageView iv;
+		String id;
 		float maxImageSize = 650;
 		boolean filter = true;
 		ArrayAdapterCustom adapter;
-		public NewsFeedItem(String img)
+		public NewsFeedItem(String img,String id)
 		{
 			link=img;		
+			this.id=id;
 		}
 		
 		public String getImg()
 		{
 			return link;
 		}
-		
+		public String getId()
+		{
+			return id;
+		}
 		public void setBitMap(ImageView imgview,ArrayAdapterCustom adapter)
 		{
 			this.adapter=adapter;
