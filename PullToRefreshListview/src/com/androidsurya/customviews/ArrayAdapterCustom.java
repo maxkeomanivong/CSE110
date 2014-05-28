@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -54,6 +55,7 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	        viewHolder = new ViewHolderItem();
 	        viewHolder.view=convertView;
 	        viewHolder.imgViewItem = (ImageView) convertView.findViewById(R.id.imgView);
+	        viewHolder.s=(TextView) convertView.findViewById(R.id.tbox3);
 	        viewHolder.pos=position;
 	         
 	        viewHolder.imgViewItem.setTag(position);
@@ -70,6 +72,7 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	        viewHolder = (ViewHolderItem) convertView.getTag();
 	    }
 		viewHolder.pos=position;
+		viewHolder.s.setText(""+data.get(position).getSmash()+" Smashes | "+data.get(position).getPass()+" Passes");
 		//gets the items based on the position of the row
 		NewsFeedItem newsfeedItem = data.get(position);	
 		
@@ -97,6 +100,7 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	    int pos;
 	    Button smash;
 	    Button pass;
+	    TextView s;
 	    public Button getButtonSmash()
 	    {
 	    	smash=(Button) view.findViewById(R.id.smash2);
@@ -119,10 +123,14 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 			case R.id.smash2:
 				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/feed/like.php?Id="+data.get(v.pos).getId());
 				Toast.makeText(myView.getContext(), "ID number is "+data.get(v.pos).getId()+". ", Toast.LENGTH_SHORT).show();
+				v.s.setText(""+(data.get(v.pos).getSmash()+1)+" Smashes | "+data.get(v.pos).getPass()+" Passes");
+				data.get(v.pos).smash=""+(data.get(v.pos).getSmash()+1);
 			break;
 			case R.id.pass2:
 				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/feed/dislike.php?Id="+data.get(v.pos).getId());
 				Toast.makeText(myView.getContext(), "ID number is "+R.id.pass2+". ", Toast.LENGTH_SHORT).show();
+				v.s.setText(""+data.get(v.pos).getSmash()+" Smashes | "+(data.get(v.pos).getPass()+1)+" Passes");
+				data.get(v.pos).pass=""+(data.get(v.pos).getPass()+1);
 			break;
 			}
 			

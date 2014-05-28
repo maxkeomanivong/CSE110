@@ -26,6 +26,8 @@ public class MainActivity extends ListActivity {
 	String RSSfeed = "http://foodobjectorienteddesign.com/feed/datesort.php";
 	ArrayList <String> links = new ArrayList<String>();
 	ArrayList <String> ids = new ArrayList<String>();
+	ArrayList <String> smashes = new ArrayList<String>();
+	ArrayList <String> passes = new ArrayList<String>();
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
 	/** Called when the activity is first created. */
 	@Override
@@ -44,7 +46,7 @@ public class MainActivity extends ListActivity {
         for(int x=0;x<links.size();x++)
         {
         	Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-        	item.add(new NewsFeedItem(links.get(x),ids.get(x)));
+        	item.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
         }
         
         //the adapter for the listview,passing in this, the layout for each row in
@@ -87,6 +89,8 @@ public class MainActivity extends ListActivity {
 	        {
 	           links = reader.getURLS();
 	           ids = reader.getIDs();
+	           smashes = reader.getSmashes();
+	           passes = reader.getPasses();
 	        }
 	        reader.resetFlag();
 		      
@@ -118,7 +122,7 @@ public class MainActivity extends ListActivity {
             {
 				counter++;
             	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x)));
+            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
             }
     		adapter.notifyDataSetChanged();
     		listItems.setCount(counter);

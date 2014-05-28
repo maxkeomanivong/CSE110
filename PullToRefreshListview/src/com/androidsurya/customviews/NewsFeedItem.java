@@ -11,8 +11,8 @@ import android.widget.ImageView;
 public class NewsFeedItem {
 		public String link;
 		public String name;
-		public int smash;
-		public int pass;
+		public String smash;
+		public String pass;
 		public Bitmap imgMap = null;
 		public Bitmap newBitmap = null;
 		Bitmap scaledBitmap;
@@ -21,10 +21,12 @@ public class NewsFeedItem {
 		float maxImageSize = 650;
 		boolean filter = true;
 		ArrayAdapterCustom adapter;
-		public NewsFeedItem(String img,String id)
+		public NewsFeedItem(String img,String id,String s, String p)
 		{
-			link=img;		
+			this.link=img;		
 			this.id=id;
+			this.smash=s;
+			this.pass=p;
 		}
 		
 		public String getImg()
@@ -34,6 +36,14 @@ public class NewsFeedItem {
 		public String getId()
 		{
 			return id;
+		}
+		public int getSmash()
+		{
+			return Integer.parseInt(smash);
+		}
+		public int getPass()
+		{
+			return Integer.parseInt(pass);
 		}
 		public void setBitMap(ImageView imgview,ArrayAdapterCustom adapter)
 		{
