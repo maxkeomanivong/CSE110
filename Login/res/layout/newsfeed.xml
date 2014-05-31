@@ -1,0 +1,388 @@
+
+<com.learn2crack.FlyOutContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/slideout2"
+        android:orientation="vertical" >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/search"
+            android:text="Search"
+            android:textColor="#ffffff"
+            android:gravity="center_horizontal|center_vertical"
+            android:id="@+id/slideoutb1"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="toggleMenu"
+            android:text="Favorites"
+            android:textColor="#ffffff"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@drawable/fav" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="toggleMenu"
+            android:text="Settings"
+            android:textColor="#ffffff"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@drawable/settings" />
+    </LinearLayout>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:onClick="toggleMenu" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/navbar"
+            android:onClick="toggleMenu"
+            android:id="@+id/activitybar" />
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/menub"
+            android:onClick="toggleMenu" />
+
+        <Button
+        
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="3dp"
+            android:background="@drawable/camerab"
+            android:onClick="toggleMenu"
+            android:id="@+id/camera" />
+
+        <Button
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/power" 
+            android:id="@+id/logoutn"/>
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/activitybar" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/newsfeed"
+                 >
+                
+		        <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="3dp"
+		            android:layout_toStartOf="@+id/pass1"
+		            android:layout_alignBaseline="@+id/pass1"
+		            android:background="@drawable/smash"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/smash1" />
+
+		        <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="10dp"
+		            android:layout_alignParentRight="true"
+		            android:background="@drawable/pass"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/pass1" />
+                
+                <ImageView
+		            android:layout_width="400dp"
+		            android:layout_height="240dp"
+		            android:layout_below="@+id/pass1"
+		            android:layout_centerHorizontal="true"
+		            android:background="@drawable/pizza"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/img1"
+		            android:layout_marginLeft="5dp"
+		            android:layout_marginRight="5dp" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img1"
+		            android:layout_alignParentLeft="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox1"
+		            android:layout_margin="5dp"
+		            android:text="100 Smashes | 20 Passes"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img1"
+		            android:layout_alignParentRight="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox2"
+		            android:layout_margin="5dp"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500"
+		            android:text="Location: Yo Mama's House" />
+                
+                
+                
+                
+                <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="3dp"
+		            android:layout_toStartOf="@+id/pass2"
+		            android:layout_alignBaseline="@+id/pass2"
+		            android:background="@drawable/smash"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/smash2" />
+
+		        <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="10dp"
+		            android:layout_alignParentRight="true"
+		            android:layout_below="@+id/tbox2"
+		            android:background="@drawable/pass"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/pass2" />
+                
+                <ImageView
+		            android:layout_width="400dp"
+		            android:layout_height="250dp"
+		            android:layout_below="@+id/pass2"
+		            android:layout_centerHorizontal="true"
+		            android:background="@drawable/burgger"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/img2"
+		            android:layout_marginLeft="5dp"
+		            android:layout_marginRight="5dp" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img2"
+		            android:layout_alignParentLeft="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox3"
+		            android:layout_margin="5dp"
+		            android:text="100 Smashes | 20 Passes"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img2"
+		            android:layout_alignParentRight="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox4"
+		            android:layout_margin="5dp"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500"
+		            android:text="Location: My Kitchen" />
+                
+                
+                
+                <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="3dp"
+		            android:layout_toStartOf="@+id/pass3"
+		            android:layout_alignBaseline="@+id/pass3"
+		            android:background="@drawable/smash"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/smash3" />
+
+		        <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="10dp"
+		            android:layout_alignParentRight="true"
+		            android:layout_below="@+id/tbox4"
+		            android:background="@drawable/pass"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/pass3" />
+                
+                <ImageView
+		            android:layout_width="400dp"
+		            android:layout_height="250dp"
+		            android:layout_below="@+id/pass3"
+		            android:layout_centerHorizontal="true"
+		            android:background="@drawable/steack"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/img3"
+		            android:layout_marginLeft="5dp"
+		            android:layout_marginRight="5dp" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img3"
+		            android:layout_alignParentLeft="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox5"
+		            android:layout_margin="5dp"
+		            android:text="60 Smashes | 20 Passes"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img3"
+		            android:layout_alignParentRight="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox6"
+		            android:layout_margin="5dp"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500"
+		            android:text="Location: Strip House" />
+                
+                
+                
+                <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="3dp"
+		            android:layout_toStartOf="@+id/pass4"
+		            android:layout_alignBaseline="@+id/pass4"
+		            android:background="@drawable/smash"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/smash4" />
+
+		        <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="10dp"
+		            android:layout_alignParentRight="true"
+		            android:layout_below="@+id/tbox6"
+		            android:background="@drawable/pass"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/pass4" />
+                
+                <ImageView
+		            android:layout_width="400dp"
+		            android:layout_height="250dp"
+		            android:layout_below="@+id/pass4"
+		            android:layout_centerHorizontal="true"
+		            android:background="@drawable/sand"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/img4"
+		            android:layout_marginLeft="5dp"
+		            android:layout_marginRight="5dp" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img4"
+		            android:layout_alignParentLeft="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox7"
+		            android:layout_margin="5dp"
+		            android:text="1 Smashes | 200 Passes"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img4"
+		            android:layout_alignParentRight="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox8"
+		            android:layout_margin="5dp"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500"
+		            android:text="Location: Hells Kitchen" />
+                
+                
+                
+                <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="3dp"
+		            android:layout_toStartOf="@+id/pass5"
+		            android:layout_alignBaseline="@+id/pass5"
+		            android:background="@drawable/smash"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/smash5" />
+
+		        <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="10dp"
+		            android:layout_alignParentRight="true"
+		            android:layout_below="@+id/tbox8"
+		            android:background="@drawable/pass"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/pass5" />
+                
+                <ImageView
+		            android:layout_width="400dp"
+		            android:layout_height="250dp"
+		            android:layout_below="@+id/pass5"
+		            android:layout_centerHorizontal="true"
+		            android:background="@drawable/kabob"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/img5"
+		            android:layout_marginLeft="5dp"
+		            android:layout_marginRight="5dp" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img5"
+		            android:layout_alignParentLeft="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox9"
+		            android:layout_margin="5dp"
+		            android:text="1009 Smashes | -5 Passes"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/img5"
+		            android:layout_alignParentRight="true"
+		            android:onClick="toggleMenu"
+		            android:id="@+id/tbox10"
+		            android:layout_margin="5dp"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500"
+		            android:text="Location: Glendale" />
+                    
+            </RelativeLayout>
+            
+        </ScrollView>
+        
+    </RelativeLayout>
+
+</com.learn2crack.FlyOutContainer>
