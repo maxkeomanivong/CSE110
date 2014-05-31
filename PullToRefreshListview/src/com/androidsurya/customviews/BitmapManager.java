@@ -39,6 +39,7 @@ public enum BitmapManager {
 	 
 	 public Bitmap getBitmapFromCache(String url) {
 	  if (cache.containsKey(url)) {
+		  System.err.println("The url of the cached image is: "+url);
 	   return cache.get(url).get();
 	  }
 	 

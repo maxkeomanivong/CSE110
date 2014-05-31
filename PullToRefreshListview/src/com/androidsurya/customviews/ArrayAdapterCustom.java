@@ -24,7 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	Context myContext;
 	int layoutID;
-	List<NewsFeedItem> data = null;
+	static List<NewsFeedItem> data = null;
 	int position;
 	XMLHandler reader;
 	public ArrayAdapterCustom(Context myContext, int layoutID, List<NewsFeedItem> data)
@@ -56,6 +56,9 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	        viewHolder.view=convertView;
 	        viewHolder.imgViewItem = (ImageView) convertView.findViewById(R.id.imgView);
 	        viewHolder.s=(TextView) convertView.findViewById(R.id.tbox3);
+	        viewHolder.user=(TextView) convertView.findViewById(R.id.tbox4);
+	        viewHolder.foodname=(TextView) convertView.findViewById(R.id.user);
+
 	        viewHolder.pos=position;
 	         
 	        viewHolder.imgViewItem.setTag(position);
@@ -71,7 +74,10 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	        // just use the viewHolder
 	        viewHolder = (ViewHolderItem) convertView.getTag();
 	    }
+		viewHolder.view=convertView;
 		viewHolder.pos=position;
+		viewHolder.user.setText("@"+data.get(position).getUID());
+		viewHolder.foodname.setText(""+data.get(position).getName());
 		viewHolder.s.setText(""+data.get(position).getSmash()+" Smashes | "+data.get(position).getPass()+" Passes");
 		//gets the items based on the position of the row
 		NewsFeedItem newsfeedItem = data.get(position);	
@@ -101,10 +107,16 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	    Button smash;
 	    Button pass;
 	    TextView s;
+	    TextView user;
+	    TextView foodname;
 	    public Button getButtonSmash()
 	    {
 	    	smash=(Button) view.findViewById(R.id.smash2);
 	    	return smash;
+	    }
+	    public NewsFeedItem getItem()
+	    {
+	    	return data.get(pos);
 	    }
 	    public Button getButtonPass()
 	    {
@@ -121,13 +133,13 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 			switch(myView.getId())
 			{
 			case R.id.smash2:
-				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/feed/like.php?Id="+data.get(v.pos).getId());
+				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/like2.php?user_id=2&food_id="+data.get(v.pos).getId());
 				Toast.makeText(myView.getContext(), "ID number is "+data.get(v.pos).getId()+". ", Toast.LENGTH_SHORT).show();
 				v.s.setText(""+(data.get(v.pos).getSmash()+1)+" Smashes | "+data.get(v.pos).getPass()+" Passes");
 				data.get(v.pos).smash=""+(data.get(v.pos).getSmash()+1);
 			break;
 			case R.id.pass2:
-				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/feed/dislike.php?Id="+data.get(v.pos).getId());
+				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/dislike2.php?user_id=2&food_id="+data.get(v.pos).getId());
 				Toast.makeText(myView.getContext(), "ID number is "+R.id.pass2+". ", Toast.LENGTH_SHORT).show();
 				v.s.setText(""+data.get(v.pos).getSmash()+" Smashes | "+(data.get(v.pos).getPass()+1)+" Passes");
 				data.get(v.pos).pass=""+(data.get(v.pos).getPass()+1);

@@ -23,11 +23,17 @@ public class MainActivity extends ListActivity {
 	PullToRefreshListView listItems;
 	XMLHandler reader;
 	int counter=1;
-	String RSSfeed = "http://foodobjectorienteddesign.com/feed/datesort.php";
+	String RSSfeed = "http://foodobjectorienteddesign.com/feed/wesfeed/feed.php";
 	ArrayList <String> links = new ArrayList<String>();
 	ArrayList <String> ids = new ArrayList<String>();
 	ArrayList <String> smashes = new ArrayList<String>();
 	ArrayList <String> passes = new ArrayList<String>();
+	ArrayList <String> names = new ArrayList<String>();
+	ArrayList <String> address = new ArrayList<String>();
+	ArrayList <String> resname = new ArrayList<String>();
+	ArrayList <String> time = new ArrayList<String>();
+	ArrayList <String> description = new ArrayList<String>();
+	ArrayList <String> uid = new ArrayList<String>();
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
 	/** Called when the activity is first created. */
 	@Override
@@ -46,7 +52,7 @@ public class MainActivity extends ListActivity {
         for(int x=0;x<links.size();x++)
         {
         	Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-        	item.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
+        	item.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),resname.get(x),time.get(x),description.get(x),uid.get(x)));
         }
         
         //the adapter for the listview,passing in this, the layout for each row in
@@ -57,7 +63,7 @@ public class MainActivity extends ListActivity {
         listItems = (PullToRefreshListView) getListView();
         listItems.setAdapter(adapter);
         listItems.setOnScrollListener(listItems);
-        listItems.setOnItemClickListener(new ListViewItemListener());
+        listItems.setOnItemClickListener(new ListViewItemListener(MainActivity.this));
         System.err.println("THINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
 		// Set a listener to be invoked when the list should be refreshed.
 		
@@ -91,6 +97,13 @@ public class MainActivity extends ListActivity {
 	           ids = reader.getIDs();
 	           smashes = reader.getSmashes();
 	           passes = reader.getPasses();
+	          
+	           names = reader.getNames();
+	           //address = reader.getAddress();
+	           resname = reader.getResname();
+	           time = reader.getTime();
+	           description = reader.getDescription();
+	           uid= reader.getUID();
 	        }
 	        reader.resetFlag();
 		      
@@ -116,18 +129,27 @@ public class MainActivity extends ListActivity {
 		protected void onPostExecute(String[] result) {
 			//mListItems.add(0, "Added new item after refresh...");
 			// Call onRefreshComplete when the list has been refreshed.
-			
-			adapter.clear();
-			for(int x=0;x<links.size();x++)
-            {
-				counter++;
-            	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
-            }
-    		adapter.notifyDataSetChanged();
-    		listItems.setCount(counter);
-    		((PullToRefreshListView) getListView()).onRefreshComplete();
-			super.onPostExecute(result);
+			for(int x=0;x<uid.size();x++)
+		    	  System.err.println("UID is: "+uid.get(x));
+			if(links==null || ids==null || smashes==null || passes==null)	
+			{
+				((PullToRefreshListView) getListView()).onRefreshComplete();
+				super.onPostExecute(result);
+			}
+			else
+			{
+				adapter.clear();
+				for(int x=0;x<links.size();x++)
+	            {
+					counter++;
+	            	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
+	            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),resname.get(x),time.get(x),description.get(x),uid.get(x)));
+	            }
+	    		adapter.notifyDataSetChanged();
+	    		listItems.setCount(counter);
+	    		((PullToRefreshListView) getListView()).onRefreshComplete();
+				super.onPostExecute(result);
+			}
 		}
 	}
 

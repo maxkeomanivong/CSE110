@@ -34,12 +34,20 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	int counter=1;
 	boolean loading=false;
 	XMLHandler reader;
-	String RSSfeed = "http://foodobjectorienteddesign.com/feed/datesort.php";
+	String RSSfeed = "http://foodobjectorienteddesign.com/wesfeed/feed.php";
 	ArrayAdapterCustom adap;
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
 	ArrayList <String> ids = new ArrayList<String>();
 	ArrayList <String> smashes = new ArrayList<String>();
 	ArrayList <String> passes = new ArrayList<String>();
+	
+	ArrayList <String> names = new ArrayList<String>();
+	ArrayList <String> address = new ArrayList<String>();
+	ArrayList <String> numbers = new ArrayList<String>();
+	ArrayList <String> callfor = new ArrayList<String>();
+	ArrayList <String> description = new ArrayList<String>();
+	ArrayList <String> uid = new ArrayList<String>();
+	
 	ArrayList <String> links = new ArrayList<String>(Arrays.asList(new String[] {"http://www.foodobjectorienteddesign.com/imageupload/wes/img/123021.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/CUhouv9.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/155597.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/Horse.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/Koala.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/tumblr_mykp0lkFiX1ruj0bpo1_1280.jpg","http://www.foodobjectorienteddesign.com/imageupload/wes/img/zljUGM0.jpg","http://lh5.ggpht.com/_mrb7w4gF8Ds/TCpetKSqM1I/AAAAAAAAD2c/Qef6Gsqf12Y/s144-c/_DSC4374%20copy.jpg",
 			   "http://lh5.ggpht.com/_Z6tbBnE-swM/TB0CryLkiLI/AAAAAAAAVSo/n6B78hsDUz4/s144-c/_DSC3454.jpg",
 			   "http://lh3.ggpht.com/_GEnSvSHk4iE/TDSfmyCfn0I/AAAAAAAAF8Y/cqmhEoxbwys/s144-c/_MG_3675.jpg",
@@ -132,7 +140,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         addHeaderView(mRefreshView);
 
         super.setOnScrollListener(this);
-
+        
         measureView(mRefreshView);
         mRefreshViewHeight = mRefreshView.getMeasuredHeight();
     }
@@ -479,13 +487,20 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	           ids = reader.getIDs();
 	           smashes = reader.getSmashes();
 	           passes = reader.getPasses();
+	           
+	           names = reader.getNames();
+	           address = reader.getAddress();
+	           numbers = reader.getNumbers();
+	           callfor = reader.getCallfor();
+	           description = reader.getDescription();
+	           uid= reader.getUID();
 	        }
-	        if(links==null)
+	        reader.resetFlag();
+	        if(links==null|| ids==null || smashes==null || passes==null)
 	        {
 	        	String[] arr= {"null"};
 	        	return (arr);
 	        }
-	        reader.resetFlag();
 		      
 			//adapter.add(new NewsFeedItem(links.get(3)));
     		/*
@@ -519,7 +534,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 			for(int x=0;x<links.size();x++)
             {   counter++;;
             	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-            	adap.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
+            	adap.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),numbers.get(x),callfor.get(x),description.get(x),uid.get(x)));
             }
     		adap.notifyDataSetChanged();
     		

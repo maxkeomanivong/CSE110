@@ -26,7 +26,21 @@ public class XMLHandler{
 	ArrayList<String> IDList = new ArrayList<String>();
 	ArrayList<String> SmashList = new ArrayList<String>();
 	ArrayList<String> PassList = new ArrayList<String>();
+	ArrayList<String> uidList = new ArrayList<String>();
+	ArrayList<String> nameList = new ArrayList<String>();
+	
+	//Array lists to hold the information of the restaurant profiles
+	ArrayList<String> restIDList = new ArrayList<String>();
+	ArrayList<String> resnameList = new ArrayList<String>();
+	ArrayList<String> locList = new ArrayList<String>();
+	ArrayList<String> phoneList = new ArrayList<String>();
+	ArrayList<String> callforList = new ArrayList<String>();
+	ArrayList<String> descList = new ArrayList<String>();
+	
+	ArrayList<String> timeList = new ArrayList<String>();
+	
 	int flag =0;
+	
 	// The URL of the PHP script to be executed
 	String phpScript = null;
 	
@@ -35,7 +49,17 @@ public class XMLHandler{
 	Boolean IDFlag = false;
 	Boolean smashFlag= false;
 	Boolean passFlag = false;
+	Boolean resnameFlag = false;
 	
+	// Flags to check what restaurant information is being parsed by XMLParser
+	Boolean nameFlag = false;
+	Boolean locFlag = false;
+	Boolean phoneFlag = false;
+	Boolean callforFlag = false;
+	Boolean descFlag = false;
+	
+	Boolean timeFlag = false;
+	Boolean uidFlag = false;
 	/*
 	 * Method to execute the PHP script on the server
 	 */
@@ -56,6 +80,14 @@ public class XMLHandler{
     	flag=0;
     	
     }
+    public ArrayList<String> getUID()
+    {
+    	if(uidList.size()==0)
+    	{
+    		return null;
+    	}
+    	return uidList;
+    }
     /*
      * Getter method to obtain the list of URLs parsed by XMLParser
      */
@@ -67,7 +99,14 @@ public class XMLHandler{
     	}
     	return URLlist;
     }
-    
+    public ArrayList<String> getResname()
+    {
+    	if(resnameList.size()==0)
+    	{
+    		return null;
+    	}
+    	return resnameList;
+    }
     /*
      * Getter method to obtain the list of database IDs associated with the URLs
      */
@@ -91,7 +130,14 @@ public class XMLHandler{
     	}
     	return SmashList;
     }
-    
+    public ArrayList<String> getTime()
+    {
+    	if(timeList.size()==0)
+    	{
+    		return null;
+    	}
+    	return timeList;
+    }
     /*
      * Getter method to obtain the dislikes associated with the URLs
      */
@@ -104,6 +150,61 @@ public class XMLHandler{
     	return PassList;
     }
     
+    /*
+     * Getter method to obtain the restaurant name
+     */
+    public ArrayList<String> getNames()
+    {
+    	if(nameList.size()==0)
+    	{
+    		return null;
+    	}
+    	return nameList;
+    }
+    /*
+     * Getter method to obtain the restaurant address
+     */
+    public ArrayList<String> getAddress()
+    {
+    	if(locList.size()==0)
+    	{
+    		return null;
+    	}
+    	return locList;
+    }
+    /*
+     * Getter method to obtain the restaurant number
+     */
+    public ArrayList<String> getNumbers()
+    {
+    	if(phoneList.size()==0)
+    	{
+    		return null;
+    	}
+    	return phoneList;
+    }
+    /*
+     * Getter method to obtain the call for
+     */
+    public ArrayList<String> getCallfor()
+    {
+    	if(callforList.size()==0)
+    	{
+    		return null;
+    	}
+    	return callforList;
+    }
+    /*
+     * Getter method to obtain the call for
+     */
+    public ArrayList<String> getDescription()
+    {
+    	if(descList.size()==0)
+    	{
+    		return null;
+    	}
+    	return descList;
+    }
     /*
      * Connects to the PHP script stored in the server and obtains RSS feed
      */
@@ -197,7 +298,7 @@ public class XMLHandler{
 	                continue;
 	            }
 	            String name = parser.getName();
-	            if(name.equals("title")){
+	            if(name.equals("id")){
 	            	IDFlag = true;
 	            	result = readID(parser);
 	            }
@@ -213,6 +314,46 @@ public class XMLHandler{
 	            	passFlag = true;
 	                result = readDislikes(parser);
 	            }
+	            else if(name.equals("name"))
+	            {
+	            	nameFlag = true;
+	            	result = readName(parser);
+	            }
+	            else if(name.equals("address"))
+	            {
+	            	locFlag = true;
+	            	result = readLoc(parser);
+	            }
+	            else if(name.equals("number"))
+	            {
+	            	phoneFlag = true;
+	            	result = readNumber(parser);
+	            }
+	            else if(name.equals("callfor"))
+	            {
+	            	callforFlag = true;
+	            	result = readCallfor(parser);
+	            }
+	            else if(name.equals("time"))
+	            {
+	            	timeFlag = true;
+	            	result = readTime(parser);
+	            }
+	            else if(name.equals("description"))
+	            {
+	            	descFlag = true;
+	            	result = readDescription(parser);
+	            }
+	            else if(name.equals("uid"))
+	            {
+	            	uidFlag = true;
+	            	result = readUID(parser);
+	            }
+	            else if(name.equals("resname"))
+	            {
+	            	resnameFlag = true;
+	            	result = readResname(parser);
+	            }
 	            else {
 	                skip(parser);
 	            }
@@ -221,10 +362,18 @@ public class XMLHandler{
 	    }
 	    // Layer that reads the title
 	    private String readID(XmlPullParser parser) throws IOException, XmlPullParserException {
-	        parser.require(XmlPullParser.START_TAG, null, "title");
+	        parser.require(XmlPullParser.START_TAG, null, "id");
 	        String title = readText(parser);
-	        parser.require(XmlPullParser.END_TAG, null, "title");
+	        parser.require(XmlPullParser.END_TAG, null, "id");
 	        IDFlag = false;
+	        return title;
+	    }
+	 // Layer that reads the link
+	    private String readTime(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, null, "time");
+	        String title = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, null, "time");
+	        timeFlag = false;
 	        return title;
 	    }
 	    // Layer that reads the link
@@ -249,6 +398,60 @@ public class XMLHandler{
 	        String title = readText(parser);
 	        parser.require(XmlPullParser.END_TAG, null, "pass");
 	        passFlag = false;
+	        return title;
+	    }
+	    // Parser that reads the description of the item
+	    private String readName(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, null, "name");
+	        String title = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, null, "name");
+	        nameFlag = false;
+	        return title;
+	    }
+	    // Parser that reads the description of the item
+	    private String readLoc(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, null, "address");
+	        String title = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, null, "address");
+	        locFlag = false;
+	        return title;
+	    }
+	    // Parser that reads the description of the item
+	    private String readNumber(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, null, "number");
+	        String title = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, null, "number");
+	        phoneFlag = false;
+	        return title;
+	    }
+	    // Parser that reads the description of the item
+	    private String readCallfor(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, null, "callfor");
+	        String title = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, null, "callfor");
+	        callforFlag = false;
+	        return title;
+	    }
+	    private String readResname(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, null, "resname");
+	        String title = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, null, "resname");
+	        resnameFlag = false;
+	        return title;
+	    }
+	    // Parser that reads the description of the item
+	    private String readDescription(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, null, "description");
+	        String title = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, null, "description");
+	        descFlag = false;
+	        return title;
+	    }
+	    private String readUID(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, null, "uid");
+	        String title = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, null, "uid");
+	        uidFlag = false;
 	        return title;
 	    }
 	    // Reads the text
@@ -277,6 +480,44 @@ public class XMLHandler{
 	        if(passFlag == true)
 	        {
 	        	PassList.add(result);
+	        }
+	        // Add the restaurant name
+	        if(nameFlag == true)
+	        {
+	        	nameList.add(result);
+	        }
+	        // Add the location of the restaurant
+	        if(locFlag == true)
+	        {
+	        	locList.add(result);
+	        }
+	        // Add the phone number of the restaurant
+	        if(phoneFlag == true)
+	        {
+	        	phoneList.add(result);
+	        }
+	        // Add the call for name of the restaurant
+	        if(callforFlag == true)
+	        {
+	        	callforList.add(result);
+	        }
+	        if(timeFlag == true)
+	        {
+	        	timeList.add(result);
+	        }
+	        // Add the description of the restaurant
+	        if(descFlag == true)
+	        {
+	        	descList.add(result);
+	        }
+	        if(uidFlag ==true)
+	        {
+	        	System.err.println("Result "+ result);
+	        	uidList.add(result);
+	        }
+	        if(resnameFlag ==true)
+	        {
+	        	resnameList.add(result);
 	        }
 	        return result;
 	    }
