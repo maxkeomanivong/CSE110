@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="3dp"
+    android:descendantFocusability="blocksDescendants" 
+     >
+
+              <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="3dp"
+		            android:layout_toStartOf="@+id/pass2"
+		            android:layout_alignBaseline="@+id/pass2"
+		            android:background="@drawable/smash"
+		            android:id="@+id/smash2" />
+
+		        <Button
+		            android:layout_width="40dp"
+		            android:layout_height="40dp"
+		            android:layout_margin="10dp"
+		            android:layout_alignParentRight="true"
+		            android:background="@drawable/pass"
+		            android:id="@+id/pass2" />
+                
+                <ImageView
+		            android:layout_width="400dp"
+		            android:layout_height="250dp"
+		            android:layout_below="@+id/pass2"
+		            android:layout_centerHorizontal="true"
+		            android:id="@+id/imgView"
+		            android:layout_marginLeft="5dp"
+		            android:layout_marginRight="5dp" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/imgView"
+		            android:layout_alignParentLeft="true"
+		            android:id="@+id/tbox3"
+		            android:layout_margin="5dp"
+		            android:text="100 Smashes | 20 Passes"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500" />
+                
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/imgView"
+		            android:layout_alignParentRight="true"
+		            android:id="@+id/tbox4"
+		            android:layout_margin="5dp"
+		            android:textSize="14sp"
+		            android:textColor="#ffa500"
+		            android:text="Location: My Kitchen" />
+                
+                <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/tbox4"
+		            android:layout_alignParentRight="true"
+		            android:id="@+id/tbox5"
+		            android:layout_marginTop="5dp"
+		            android:layout_marginLeft="5dp"
+		            android:layout_marginRight="5dp"
+		            android:padding="6dp"
+		            android:textSize="17sp"
+		            android:textColor="#ffa500"
+		            android:background="@drawable/textbox9"
+		            android:text="#Baw818: Soooo Bawssssssss!!!!!!!!!!" />
+
+
+</RelativeLayout>
