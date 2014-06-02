@@ -5,11 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.PopupWindow;
 
 import com.androidsurya.pulltorefresh.R;
 import com.androidsurya.pulltorefresh.R.layout;
@@ -22,7 +25,7 @@ public class MainActivity extends ListActivity {
 	ArrayAdapterCustom adapter;
 	PullToRefreshListView listItems;
 	XMLHandler reader;
-	int counter=1;
+	int counter=0;
 	String RSSfeed = "http://foodobjectorienteddesign.com/feed/wesfeed/feed.php";
 	ArrayList <String> links = new ArrayList<String>();
 	ArrayList <String> ids = new ArrayList<String>();
@@ -36,6 +39,7 @@ public class MainActivity extends ListActivity {
 	ArrayList <String> uid = new ArrayList<String>();
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
 	/** Called when the activity is first created. */
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,21 +71,30 @@ public class MainActivity extends ListActivity {
         System.err.println("THINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
 		// Set a listener to be invoked when the list should be refreshed.
 		
-				listItems.setOnRefreshListener(new OnRefreshListener() {
-					@Override
-					public void onRefresh() {
-						// Do work to refresh the list here.
-						//new GetDataTask().execute();
-						if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
-						    new GetDataTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-						} else {
-						    new GetDataTask().execute();
-						}
+		listItems.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				// Do work to refresh the list here.
+				//new GetDataTask().execute();
+				if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+				    new GetDataTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+				} else {
+						 new GetDataTask().execute();
+				}
 					}
 				});
 
 	}
-
+	
+	//Detects when the popup is clicked so it can be closed
+	public void onPopupClick(View v)
+	{ 
+		PopupWindow pop = (PopupWindow)(v.getTag());
+		pop.dismiss();
+		v.setVisibility(View.GONE);
+		System.err.println("View : boobop");
+	}
+	
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
 		@Override
@@ -100,34 +113,17 @@ public class MainActivity extends ListActivity {
 	          
 	           names = reader.getNames();
 	           //address = reader.getAddress();
-	           resname = reader.getResname();
-	           time = reader.getTime();
-	           description = reader.getDescription();
+	           //resname = reader.getResname();
+	           //time = reader.getTime();
+	           //description = reader.getDescription();
 	           uid= reader.getUID();
 	        }
 	        reader.resetFlag();
-		      
-			//adapter.add(new NewsFeedItem(links.get(3)));
-    		/*
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-
-			}*/
-			//adapter.clear();
-    		/*
-    		for(int x=0;x<links.size();x++)
-            {
-            	Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-            	adapter.add(new NewsFeedItem(links.get(x)));
-            }
-    		adapter.notifyDataSetChanged();*/
 			return mStrings;
 		}
 
 		@Override
 		protected void onPostExecute(String[] result) {
-			//mListItems.add(0, "Added new item after refresh...");
 			// Call onRefreshComplete when the list has been refreshed.
 			for(int x=0;x<uid.size();x++)
 		    	  System.err.println("UID is: "+uid.get(x));
@@ -142,8 +138,7 @@ public class MainActivity extends ListActivity {
 				for(int x=0;x<links.size();x++)
 	            {
 					counter++;
-	            	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-	            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),resname.get(x),time.get(x),description.get(x),uid.get(x)));
+	            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),"","","",uid.get(x)));//,resname.get(x),time.get(x),description.get(x),uid.get(x)));
 	            }
 	    		adapter.notifyDataSetChanged();
 	    		listItems.setCount(counter);

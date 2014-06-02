@@ -31,10 +31,10 @@ import com.androidsurya.pulltorefresh.R;
 public class PullToRefreshListView extends ListView implements OnScrollListener {
 
 	View footer;
-	int counter=1;
+	int counter=0;
 	boolean loading=false;
 	XMLHandler reader;
-	String RSSfeed = "http://foodobjectorienteddesign.com/wesfeed/feed.php";
+	String RSSfeed = "http://foodobjectorienteddesign.com/feed/wesfeed/feed.php";
 	ArrayAdapterCustom adap;
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
 	ArrayList <String> ids = new ArrayList<String>();
@@ -321,17 +321,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 			} else {
 			    new GetDataTask2().execute();
 			}
-			
-			//this.addFooterView(footer);
-			/*for(int x=0;x<links.size();x++)
-	        {
-	        	item.add(new NewsFeedItem(links.get(x)));
-	        }
-			Log.d("Like a baws","BAWSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSs");
-			//adap = (ArrayAdapterCustom) getAdapter();
-			adap.addAll(item);
-			adap.notifyDataSetChanged();*/
-			
+
 		}
 	 if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL
                 && mRefreshState != REFRESHING) {
@@ -489,10 +479,10 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	           passes = reader.getPasses();
 	           
 	           names = reader.getNames();
-	           address = reader.getAddress();
-	           numbers = reader.getNumbers();
-	           callfor = reader.getCallfor();
-	           description = reader.getDescription();
+	           //address = reader.getAddress();
+	           //numbers = reader.getNumbers();
+	           //callfor = reader.getCallfor();
+	           //description = reader.getDescription();
 	           uid= reader.getUID();
 	        }
 	        reader.resetFlag();
@@ -533,8 +523,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 			{
 			for(int x=0;x<links.size();x++)
             {   counter++;;
-            	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-            	adap.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),numbers.get(x),callfor.get(x),description.get(x),uid.get(x)));
+            System.err.println("" + counter);
+            	adap.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),"","","",uid.get(x)));//,names.get(x),numbers.get(x),callfor.get(x),description.get(x),uid.get(x)));
             }
     		adap.notifyDataSetChanged();
     		

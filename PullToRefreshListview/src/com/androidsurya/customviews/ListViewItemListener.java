@@ -8,6 +8,7 @@ import com.androidsurya.pulltorefresh.R;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.view.Display;
@@ -30,6 +31,7 @@ public class ListViewItemListener implements OnItemClickListener{
 	Point size;
 	int width;
 	int height;
+    PopupWindow popup;
 	
 	ArrayList <String> names = new ArrayList<String>();
 	ArrayList <String> address = new ArrayList<String>();
@@ -51,12 +53,17 @@ public class ListViewItemListener implements OnItemClickListener{
 		width = size.x;
 		height = size.y;
 	}
-	@Override
 	
+	public void onPopupClick(View v)
+	{
+		System.err.println("View : boobop");
+	}
+	
+	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 		// TODO Auto-generated method stub
 		int popupWidth = width-80;
-		   int popupHeight = 800;
+		   int popupHeight = 1100;
 		 ViewHolderItem item = (ViewHolderItem)view.getTag();
 		 System.err.println("The Id is: "+item.getItem().id);
 		   // Inflate the popup_layout.xml
@@ -66,12 +73,18 @@ public class ListViewItemListener implements OnItemClickListener{
 		   layout = layoutInflater.inflate(R.layout.popup_layout, viewGroup);
 		 
 		   // Creating the PopupWindow
-		   final PopupWindow popup = new PopupWindow(context);
+		   popup = new PopupWindow(context);
 		   popup.setContentView(layout);
 		   popup.setWidth(popupWidth);
 		   popup.setHeight(popupHeight);
 		   popup.setFocusable(true);
-		 
+		   layout.findViewById(R.id.popup).setTag(popup);
+		   ((TextView) layout.findViewById(R.id.textView1)).setTypeface(Typeface.createFromAsset(context.getAssets(),"qsandbold.otf"));
+		   ((TextView) layout.findViewById(R.id.textView2)).setTypeface(Typeface.createFromAsset(context.getAssets(),"qsandbold.otf"));
+		   ((TextView) layout.findViewById(R.id.textView3)).setTypeface(Typeface.createFromAsset(context.getAssets(),"qsandbold.otf"));
+		   ((TextView) layout.findViewById(R.id.textView4)).setTypeface(Typeface.createFromAsset(context.getAssets(),"qsandbold.otf"));
+		   ((TextView) layout.findViewById(R.id.textView5)).setTypeface(Typeface.createFromAsset(context.getAssets(),"qsandbold.otf"));
+
 		   // Some offset to align the popup a bit to the right, and a bit downs, relative to button's position.
 		   int OFFSET_X = 30;
 		   int OFFSET_Y = 30;
@@ -79,7 +92,7 @@ public class ListViewItemListener implements OnItemClickListener{
 		   new GetDataTask69().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,item.getItem().id);
 		   
 		   // Clear the default translucent background
-		   popup.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.orangedialog));
+		   popup.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.textboxpopup));
 		 
 		   // Displaying the popup at the specified location, + offsets.
 		   popup.showAtLocation(context.getListView(), Gravity.CENTER,0,0);
@@ -100,6 +113,9 @@ public class ListViewItemListener implements OnItemClickListener{
 		@Override
 		protected String[] doInBackground(String... params) {
 			// Simulates a background job.
+			int trig=0;
+			while(trig==0)
+			{
 			reader = new XMLHandler();
 	        reader.execPHP(RSSfeed+params[0]);
 	        while(reader.getFlag()==0)
@@ -111,8 +127,10 @@ public class ListViewItemListener implements OnItemClickListener{
 	           description = reader.getDescription();
 	           
 	        }
+	        if(names!=null && address!=null && phone!=null && callfor!=null && description!=null)
+	        	trig=1;
 	        reader.resetFlag();
-		      
+			}
 			//adapter.add(new NewsFeedItem(links.get(3)));
     		/*
 			try {
@@ -135,20 +153,20 @@ public class ListViewItemListener implements OnItemClickListener{
 		protected void onPostExecute(String[] result) {
 			//mListItems.add(0, "Added new item after refresh...");
 			// Call onRefreshComplete when the list has been refreshed.
-			if(((TextView)layout.findViewById(R.id.textView1))==null)
-				System.err.println("ITSNULLLLLLYOYYOOYYOYOYOYO");
-			else
-			{try{
-				((TextView)layout.findViewById(R.id.textView1)).setText(names.get(0));
-				((TextView)layout.findViewById(R.id.textView2)).setText(address.get(0));
-				((TextView)layout.findViewById(R.id.textView3)).setText(phone.get(0));
-				((TextView)layout.findViewById(R.id.textView4)).setText(callfor.get(0));
-				((TextView)layout.findViewById(R.id.textView5)).setText(description.get(0));}
+			
+			try{
+				((TextView)layout.findViewById(R.id.textView1)).setText("Restaurant Name >> "+names.get(0));
+				((TextView)layout.findViewById(R.id.textView2)).setText("Address >> "+address.get(0));
+				((TextView)layout.findViewById(R.id.textView3)).setText("Phone Number >> "+phone.get(0));
+				((TextView)layout.findViewById(R.id.textView4)).setText("Call for "+callfor.get(0));
+				((TextView)layout.findViewById(R.id.textView5)).setText(""+description.get(0));
+				}
 			catch(NullPointerException e)
 			{
-				
+				System.err.println("ITSNULLLLLLYOYYOOYYOYOYOYO1");
+
 			}
-			}
+			
 				super.onPostExecute(result);
 				
 			
