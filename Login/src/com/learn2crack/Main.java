@@ -8,12 +8,15 @@ package com.learn2crack;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -39,30 +42,47 @@ import java.net.URL;
 
 import android.graphics.BitmapFactory;
 
+import com.learn2crack.PullToRefreshListView;
+import com.learn2crack.PullToRefreshListView.OnRefreshListener;
 import com.learn2crack.FlyOutContainer;
 import com.learn2crack.library.UserFunctions;
 import com.learn2crack.library.DatabaseHandler;
+import com.learn2crack.mainscreenload.GetDataTask;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 
 
-public class Main extends Activity {
+public class Main extends ListActivity {
     Button btnLogout;
     Button changepas;
     Button camera;
     Bitmap picture;
     ImageView Uploadedphoto;
 	private static final int RESULT_LOAD_IMAGE = 1;
-    final String upLoadServerUri = "http://foodobjectorienteddesign.com/imageupload/wes/poopers.php";
+    final String upLoadServerUri = "http://foodobjectorienteddesign.com/upload_pic.php";
     String uploadFilePath = "";
     TextView messageText;
     private Intent pictureActionIntent = null;
     FlyOutContainer root;
-
+    PullToRefreshListView listItems;
+    mainscreenload homepage = new mainscreenload();
+	private List<String> mListItems;
+	ArrayAdapterCustom adapter;
+	XMLHandler reader;
+	int counter=1;
+	String RSSfeed = "http://foodobjectorienteddesign.com/feed/wesfeed/feed.php";
+	ArrayList <String> links = new ArrayList<String>();
+	ArrayList <String> ids = new ArrayList<String>();
+	ArrayList <String> smashes = new ArrayList<String>();
+	ArrayList <String> passes = new ArrayList<String>();
+	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
+	 Button upolad;
 
     /**
      * Called when the activity is first created.
@@ -74,11 +94,48 @@ public class Main extends Activity {
 
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.newsfeed, null);
 		this.setContentView(root);
+		
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+		    new GetDataTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		} 
         
+        //initializes the first news feed contents
+        
+		for(int x=0;x<links.size();x++)
+        {
+        	Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
+        	item.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
+        }
+        
+        //the adapter for the listview,passing in this, the layout for each row in
+        //the list view and the array with the newsfeeditems.
+        adapter = new ArrayAdapterCustom (this, R.layout.listview_row, item);
+    
+        //create the ListView and attach the adapter and listener
+        listItems = (PullToRefreshListView) getListView();
+        listItems.setAdapter(adapter);
+        listItems.setOnScrollListener(listItems);
+        listItems.setOnItemClickListener(new ListViewItemListener());
+        System.err.println("THINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+		// Set a listener to be invoked when the list should be refreshed.
+		
+				listItems.setOnRefreshListener(new OnRefreshListener() {
+					@Override
+					public void onRefresh() {
+						// Do work to refresh the list here.
+						//new GetDataTask().execute();
+						if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+						    new GetDataTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+						} else {
+						    new GetDataTask().execute();
+						}
+					}
+				}); 
+
         changepas = (Button) findViewById(R.id.slideoutb1);
         btnLogout = (Button) findViewById(R.id.logoutn);
         camera = (Button)findViewById(R.id.camera);
-        Uploadedphoto = (ImageView)findViewById(R.id.img1);
+        upolad = (Button)findViewById(R.id.btnLogin);
         //Uploadedphoto = (ImageView) findViewById(R.id.);
 
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
@@ -121,7 +178,7 @@ public class Main extends Activity {
         camera.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
-            	startDialog();
+    	        startDialog(); 	
             }
           });
 /**
@@ -139,12 +196,12 @@ public class Main extends Activity {
     	super.onActivityResult(requestCode, resultCode, data);
     	if (requestCode == REQUEST_TAKE_PHOTO){
     		if(resultCode == RESULT_OK){
-    			putToserver(data);
+    			startDialogForm(data);
     		}
     	}else if(requestCode == RESULT_LOAD_IMAGE){
        		if(resultCode == RESULT_OK){
        			if( data.getExtras() != null){
-       				putToserver(data);
+       				startDialogForm(data);
        			}else{
                 	Toast.makeText(getApplicationContext(),
                             "ERROR: Pick photo from Gallery", Toast.LENGTH_SHORT).show();
@@ -204,10 +261,17 @@ public class Main extends Activity {
 		            });
 		    myAlertDialog.show();
 		}
+	 private void startDialogForm(final Intent data) {
+		    final AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
+		                    pictureActionIntent = new Intent(myAlertDialog.getContext(), Uploadform.class);
+		                    startActivityForResult(pictureActionIntent,
+		                    		3);
+		                    putToserver(data);
+		}
 
 		public void putToserver(Intent data){
 			Bitmap bp = (Bitmap) data.getExtras().get("data");
-	    	Uploadedphoto.setImageBitmap(bp);
+	    	//Uploadedphoto.setImageBitmap(bp);
 	    	//Uri tempUri = getImageUri(getApplicationContext(), bp);
 	    	Uri _uri = data.getData();
 	    	String imageFilePath = "";
@@ -257,5 +321,65 @@ public class Main extends Activity {
 	          }).start();   
 			
 		}
+		class GetDataTask extends AsyncTask<Void, Void, String[]> {
+
+			@Override
+			protected String[] doInBackground(Void... params) {
+				// Simulates a background job.
+				counter=0;
+				String count= ""+counter;
+				reader = new XMLHandler();
+		        reader.execPHP(RSSfeed+"?start="+count);
+		        while(reader.getFlag()==0)
+		        {
+		           links = reader.getURLS();
+		           ids = reader.getIDs();
+		           smashes = reader.getSmashes();
+		           passes = reader.getPasses();
+		        }
+		        reader.resetFlag();
+			      
+				//adapter.add(new NewsFeedItem(links.get(3)));
+				/*
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+
+				}*/
+				//adapter.clear();
+				/*
+				for(int x=0;x<links.size();x++)
+		        {
+		        	Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
+		        	adapter.add(new NewsFeedItem(links.get(x)));
+		        }
+				adapter.notifyDataSetChanged();*/
+				return mStrings;
+			}
+
+			@Override
+			protected void onPostExecute(String[] result) {
+				//mListItems.add(0, "Added new item after refresh...");
+				// Call onRefreshComplete when the list has been refreshed.
+				
+				adapter.clear();
+				for(int x=0;x<links.size();x++)
+		        {
+					counter++;
+		        	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
+		        	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
+		        }
+				adapter.notifyDataSetChanged();
+				listItems.setCount(counter);
+				((PullToRefreshListView) getListView()).onRefreshComplete();
+				super.onPostExecute(result);
+			}
+		}
+
+		private String[] mStrings = { "Andaman and Nicobar Islands",
+				"Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
+				"Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
+				"Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala",
+				"Madhya Pradesh", "Maharashtra", "Manipur" };
 
 }

@@ -39,6 +39,10 @@
                   android:label="@string/app_name">
 
         </activity>
+        <activity android:name="com.learn2crack.Uploadform"
+                  android:label="@string/app_name">
+
+        </activity>
         <activity android:name="com.learn2crack.ChangePassword"
                   android:label="@string/app_name">
 

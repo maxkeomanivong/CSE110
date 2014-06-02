@@ -80,7 +80,8 @@ public class Uploader {
                    conn.setRequestProperty("Connection", "Keep-Alive");
                    conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                   conn.setRequestProperty("uploaded_file", fileName); 
+                   conn.setRequestProperty("upload_file", fileName); 
+                   //conn.setRequestProperty("Title",);
                     
                    dos = new DataOutputStream(conn.getOutputStream());
           
