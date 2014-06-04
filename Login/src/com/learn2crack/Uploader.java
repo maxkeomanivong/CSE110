@@ -3,16 +3,29 @@ package com.learn2crack;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Uploader {
 	TextView messageText;
@@ -20,6 +33,7 @@ public class Uploader {
     int serverResponseCode = 0;
     int dialog = 0;
     String upLoadServerUri = null;
+    String uploadToFileManager = "http://foodobjectorienteddesign.com/poopers.php";
     String uploadFilePath = "";
 	public Uploader(String path, String Serverpath) {
 		// TODO Auto-generated constructor stub
@@ -33,26 +47,27 @@ public class Uploader {
     /**********  File Path *************/
    
       
-    public int uploadFile(String sourceFileUri) {
-           
-           
+    public int uploadFile(String sourceFileUri, String Dish, String Descritption, String Restaurant) {
           String fileName = sourceFileUri;
-  
           HttpURLConnection conn = null;
           DataOutputStream dos = null;  
           String lineEnd = "\r\n";
           String twoHyphens = "--";
           String boundary = "*****";
+          String nameOfFile = null;
           int bytesRead, bytesAvailable, bufferSize;
           byte[] buffer;
           int maxBufferSize = 1 * 1024 * 1024; 
-          File sourceFile = new File(sourceFileUri); 
+          File sourceFile = new File(sourceFileUri);
+          nameOfFile = sourceFile.getName();
           dialog = ProgressDialog.STYLE_SPINNER; 
+          postData(upLoadServerUri,Dish,Descritption,Restaurant,nameOfFile);
+          upLoadServerUri = uploadToFileManager;
           if (!sourceFile.isFile()) { 
                 
                Log.e("uploadFile", "Source File not exist :"
                                    +uploadFilePath);
-                
+             
                new Thread(new Runnable() {
                    public void run() {
                        messageText.setText("Source File not exist :"
@@ -81,14 +96,16 @@ public class Uploader {
                    conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                    conn.setRequestProperty("upload_file", fileName); 
+                   conn.setRequestProperty("Location", Restaurant);
+                   conn.setRequestProperty("Description", Descritption);
+                   
                    //conn.setRequestProperty("Title",);
                     
                    dos = new DataOutputStream(conn.getOutputStream());
           
                    dos.writeBytes(twoHyphens + boundary + lineEnd); 
-				dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\" ;filename=\""
-                                             + fileName + "\"" + lineEnd);
-                    
+				   dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\" ;filename=\""
+                                             + fileName + "\"" + lineEnd);     
                    dos.writeBytes(lineEnd);
           
                    // create a buffer of  maximum size
@@ -98,8 +115,9 @@ public class Uploader {
                    buffer = new byte[bufferSize];
           
                    // read file and write it into form...
-                   bytesRead = fileInputStream.read(buffer, 0, bufferSize);  
-                      
+                   bytesRead = fileInputStream.read(buffer, 0, bufferSize);   
+                   
+                   
                    while (bytesRead > 0) {
                         
                      dos.write(buffer, 0, bufferSize);
@@ -166,6 +184,28 @@ public class Uploader {
               return serverResponseCode; 
                
            } // End else block 
-         } 
+         }
+    public void postData(String sourceFileUri, String Dish, String Descritption, String Restaurant, String Filename) {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(sourceFileUri);
 
+        try {
+            // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("Title", Dish));
+            nameValuePairs.add(new BasicNameValuePair("Location", Restaurant));
+            nameValuePairs.add(new BasicNameValuePair("Description", Descritption));
+            nameValuePairs.add(new BasicNameValuePair("Filename", Filename));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+    }
 }
