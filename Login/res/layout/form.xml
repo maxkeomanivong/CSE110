@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:fillViewport="true"
-  >
 
   <RelativeLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:background="@drawable/loginbackground" >
+      android:background="@drawable/uploadform" >
 
       <!-- Footer Ends -->
 
@@ -29,7 +24,7 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="Dish"
-              android:textColor="#372c24" />
+              android:textColor="#FFFFFF" />
 
           <EditText
               android:id="@+id/Dish"
@@ -45,7 +40,7 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="Restaurant"
-              android:textColor="#372c24" />
+              android:textColor="#FFFFFF" />
 
           <EditText
               android:id="@+id/restuarant"
@@ -59,7 +54,7 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="Restaurant Address"
-              android:textColor="#372c24" />
+              android:textColor="#FFFFFF" />
 
           <EditText
               android:id="@+id/address"
@@ -73,7 +68,7 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="Description"
-              android:textColor="#372c24" />
+              android:textColor="#FFFFFF" />
                 <EditText
           android:id="@+id/descr"
           android:layout_width="fill_parent"
@@ -85,11 +80,12 @@
           android:background="#FFFF"/>
                       <Button
           android:id="@+id/btnLogin"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
+          android:layout_width="120dp"
+          android:layout_height="40dp"
           android:layout_alignParentLeft="true"
           android:layout_below="@+id/descr"
-          android:text="Upload" />
+          android:layout_marginTop="10dp"
+          android:background="@drawable/uploadbutton" />
                 
           <!-- Upload button -->
       </LinearLayout>
@@ -99,5 +95,3 @@
 
 
   </RelativeLayout>
-
-</ScrollView>
