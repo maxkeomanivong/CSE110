@@ -65,6 +65,17 @@
 		            android:textColor="#ffa500"
 		            android:text="Location: My Kitchen" />
                 
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_below="@+id/tbox3"
+		            android:layout_alignParentLeft="true"
+		            android:id="@+id/tbox5"
+		            android:layout_margin="5dp"
+		            android:textSize="17sp"
+		            android:textColor="#ffa500"
+		            android:text="Description: YoYoYo This is the discription" />
+                
 
 
 

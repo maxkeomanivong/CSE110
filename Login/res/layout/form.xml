@@ -1,90 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:fillViewport="true">
+
   <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:background="#ffffff">
- 
-        <!--  Header  Starts-->
-        <LinearLayout android:id="@+id/header"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFF"
-                android:paddingTop="5dip"
-                android:paddingBottom="5dip">
-                <!-- Logo Start-->
-                <ImageView android:src="@drawable/logo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dip"/>
-                <!-- Logo Ends -->
-        </LinearLayout>
-        <!--  Header Ends -->
-        <!-- Footer Start -->
-        <LinearLayout 
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="90dip"
-                android:background="#FFFF"
-                android:layout_alignParentBottom="true">
-        </LinearLayout>
-        <!-- Footer Ends -->
- 
-        <!-- Login Form -->
-        <LinearLayout
-          android:orientation="vertical"
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/uploadform" >
+
+      <!-- Footer Ends -->
+
+
+      <!-- Login Form -->
+
+      <LinearLayout
+          android:id="@+id/linearLayout1"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:padding="10dip"
-          android:layout_below="@id/header">
-          <!--  Email Label -->
-          <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="Dish"/>
-          <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dip"
-                android:layout_marginBottom="0dip"
-                android:singleLine="true"/>
-          <!--  Password Label -->
+          android:orientation="vertical"
+          android:padding="10dip" >
+
+          <!-- Email Label -->
+
+          <TextView
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="Dish"
+              android:textColor="#FFFFFF" />
+
+          <EditText
+              android:id="@+id/Dish"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="0dip"
+              android:layout_marginTop="0dip"
+              android:singleLine="true"
+              android:background="#FFFF" />
+          <!-- Password Label -->
 
           <TextView
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="Restaurant"
-              android:textColor="#372c24" />
+              android:textColor="#FFFFFF" />
 
-          <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dip"
-                android:singleLine="true"/>
-           <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="Restaurant Address"/>
-          <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dip"
-                android:singleLine="true"/>
-          <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="Description"/>
-          <EditText android:layout_width="fill_parent"
-                android:layout_height="100dp"
-                android:maxLength="84"
-                android:layout_marginTop="0dip"/>
+          <EditText
+              android:id="@+id/restuarant"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="0dip"
+              android:singleLine="true"
+              android:background="#FFFF" />
+
+          <TextView
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="Restaurant Address"
+              android:textColor="#FFFFFF" />
+
+          <EditText
+              android:id="@+id/address"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="0dip"
+              android:singleLine="true"
+              android:background="#FFFF" />
+
+          <TextView
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="Description"
+              android:textColor="#FFFFFF" />
+                <EditText
+          android:id="@+id/descr"
+          android:layout_width="fill_parent"
+          android:layout_height="100dp"
+          android:layout_alignParentLeft="true"
+          android:layout_below="@+id/linearLayout1"
+          android:ems="10"
+          android:maxLength="84" 
+          android:background="#FFFF"/>
+                      <Button
+          android:id="@+id/btnLogin"
+          android:layout_width="120dp"
+          android:layout_height="40dp"
+          android:layout_alignParentLeft="true"
+          android:layout_below="@+id/descr"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/uploadbutton" />
+                
           <!-- Upload button -->
-          <Button android:id="@+id/btnLogin"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dip"
-                android:text="Upload"/>
-        </LinearLayout>
-        <!-- Login Form Ends -->
+      </LinearLayout>
+      <!-- Login Form Ends -->
+
+
+
+
   </RelativeLayout>
-</ScrollView>

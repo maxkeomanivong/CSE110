@@ -43,7 +43,6 @@ import java.net.URL;
 
 import android.graphics.BitmapFactory;
 
-
 import com.learn2crack.PullToRefreshListView;
 import com.learn2crack.PullToRefreshListView.OnRefreshListener;
 import com.learn2crack.FlyOutContainer;
@@ -91,6 +90,8 @@ public class Main extends ListActivity {
 	ArrayList <String> uid = new ArrayList<String>();
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
 	 Button upolad;
+		String Dishname,Restaurant,Address,Description = "";
+		Intent info;
 
     /**
      * Called when the activity is first created.
@@ -100,6 +101,9 @@ public class Main extends ListActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
 
+        Intent get = getIntent();
+        Intentgrabber(get);
+        
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.newsfeed, null);
 		this.setContentView(root);
 		
@@ -270,14 +274,12 @@ public class Main extends ListActivity {
 		    myAlertDialog.show();
 		}
 	 private void startDialogForm(final Intent data) {
-		    final AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
-		                    pictureActionIntent = new Intent(myAlertDialog.getContext(), Uploadform.class);
-		                    startActivityForResult(pictureActionIntent,
-		                    		3);
-		                    putToserver(data);
-		}
+	     pictureActionIntent = new Intent(this, Uploadform.class);
+	     pictureActionIntent.putExtra("Data",putToserver(data));
+	     startActivity(pictureActionIntent);    
+	}
 
-		public void putToserver(Intent data){
+		public String putToserver(Intent data){
 			Bitmap bp = (Bitmap) data.getExtras().get("data");
 	    	//Uploadedphoto.setImageBitmap(bp);
 	    	//Uri tempUri = getImageUri(getApplicationContext(), bp);
@@ -317,16 +319,9 @@ public class Main extends ListActivity {
 
 	            cursor.close();
 	        }
-	    	Toast.makeText(getApplicationContext(),
-	    			imageFilePath, Toast.LENGTH_LONG).show();
-	        final Uploader put = new Uploader(imageFilePath,upLoadServerUri);
-	        uploadFilePath = imageFilePath;
-	    	//uploadFilePath = data.getDataString();
-	        new Thread(new Runnable() {
-	            public void run() {                                
-	                 put.uploadFile(uploadFilePath);
-	            }
-	          }).start();   
+	    	uploadFilePath = imageFilePath;
+	         return uploadFilePath;
+	    	//uploadFilePath = data.getDataString();  
 			
 		}
 		
@@ -354,11 +349,11 @@ public class Main extends ListActivity {
 		           ids = reader.getIDs();
 		           smashes = reader.getSmashes();
 		           passes = reader.getPasses();
-		          
+		           description = reader.getDescription();
 		           names = reader.getNames();
 		           //address = reader.getAddress();
 		           //resname = reader.getResname();
-		           //time = reader.getTime();
+		           time = reader.getTime();
 		           //description = reader.getDescription();
 		           uid= reader.getUID();
 		        }
@@ -384,7 +379,7 @@ public class Main extends ListActivity {
 					for(int x=0;x<links.size();x++)
 		            {
 						counter++;
-		            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),"","","",uid.get(x)));//,resname.get(x),time.get(x),description.get(x),uid.get(x)));
+		            	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),"",time.get(x),description.get(x),uid.get(x)));//,resname.get(x),time.get(x),description.get(x),uid.get(x)));
 		            }
 		    		adapter.notifyDataSetChanged();
 		    		listItems.setCount(counter);
@@ -399,5 +394,32 @@ public class Main extends ListActivity {
 				"Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
 				"Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala",
 				"Madhya Pradesh", "Maharashtra", "Manipur" };
+		
+		public void Intentgrabber(Intent get){
+	        if(get.hasExtra("Data")){
+		        if(get.hasExtra("Dish")){
+		        	Dishname = get.getStringExtra("Dish");
+		        }
+		        if(get.hasExtra("Description")){
+		        	Description = get.getStringExtra("Description");
+		        }
+		        if(get.hasExtra("Address")){
+		        	Address = get.getStringExtra("Address");
+		        }
+		        if(get.hasExtra("Restaurant")){		        	
+		        	Restaurant = get.getStringExtra("Restaurant");
+		        }
+		        uploadFilePath = get.getStringExtra("Data");
+		        final Uploader put = new Uploader(uploadFilePath,upLoadServerUri);
+		        new Thread(new Runnable() {
+		            public void run() {                                
+		                 put.uploadFile(uploadFilePath,Dishname,Restaurant,Description);
+		            }
+		          }).start(); 
+	        	Toast.makeText(getApplicationContext(),
+	        			Restaurant+Address+ Description + Dishname + ":::" + uploadFilePath, Toast.LENGTH_SHORT).show();
+	        }
+			
+		}
 
 }

@@ -38,7 +38,7 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 		this.data=data;
 		
 		BitmapManager.INSTANCE.setPlaceholder(BitmapFactory.decodeResource(
-			    myContext.getResources(), R.drawable.kabob));
+			    myContext.getResources(), R.drawable.loading));
 	}
 	
 	@Override
@@ -60,7 +60,7 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	        viewHolder.s=(TextView) convertView.findViewById(R.id.tbox3);
 	        viewHolder.user=(TextView) convertView.findViewById(R.id.tbox4);
 	        viewHolder.foodname=(TextView) convertView.findViewById(R.id.user);
-
+	        viewHolder.description = (TextView) convertView.findViewById(R.id.tbox5);
 	        viewHolder.pos=position;
 	         
 	        viewHolder.imgViewItem.setTag(position);
@@ -81,6 +81,7 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 		viewHolder.pos=position;
 		viewHolder.user.setText("@"+data.get(position).getUID());
 		viewHolder.foodname.setText(""+data.get(position).getName());
+		viewHolder.description.setText("Description: "+ data.get(position).getDescription());
 		viewHolder.s.setText(""+data.get(position).getSmash()+" Smashes | "+data.get(position).getPass()+" Passes");
 		//gets the items based on the position of the row
 		NewsFeedItem newsfeedItem = data.get(position);	
@@ -112,6 +113,9 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 	    TextView s;
 	    TextView user;
 	    TextView foodname;
+	    boolean pasedTrig =false;
+	    boolean smashedTrig=false;
+	    TextView description;
 	    public Button getButtonSmash()
 	    {
 	    	smash=(Button) view.findViewById(R.id.smash2);
@@ -136,16 +140,39 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 			switch(myView.getId())
 			{
 			case R.id.smash2:
+				if(v.smashedTrig==false)
+				{
+				v.smashedTrig=true;
+				v.pasedTrig=false;
 				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/like2.php?user_id=2&food_id="+data.get(v.pos).getId());
 				Toast.makeText(myView.getContext(), "ID number is "+data.get(v.pos).getId()+". ", Toast.LENGTH_SHORT).show();
+				if(data.get(v.pos).getPass()!=0)
+				{
+					v.s.setText(""+(data.get(v.pos).getSmash()+1)+" Smashes | "+(data.get(v.pos).getPass()-1)+" Passes");
+					data.get(v.pos).smash=""+(data.get(v.pos).getPass()-1);
+				}
+				else{
 				v.s.setText(""+(data.get(v.pos).getSmash()+1)+" Smashes | "+data.get(v.pos).getPass()+" Passes");
+				}
 				data.get(v.pos).smash=""+(data.get(v.pos).getSmash()+1);
+				}
 			break;
 			case R.id.pass2:
+				if(v.pasedTrig==false)
+				{
+				v.pasedTrig=true;
+				v.smashedTrig=false;
 				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/dislike2.php?user_id=2&food_id="+data.get(v.pos).getId());
 				Toast.makeText(myView.getContext(), "ID number is "+R.id.pass2+". ", Toast.LENGTH_SHORT).show();
+				if(data.get(v.pos).getSmash()!=0){
+					v.s.setText(""+(data.get(v.pos).getSmash()-1)+" Smashes | "+(data.get(v.pos).getPass()+1)+" Passes");
+					data.get(v.pos).smash=""+(data.get(v.pos).getSmash()-1);
+				}
+				else{
 				v.s.setText(""+data.get(v.pos).getSmash()+" Smashes | "+(data.get(v.pos).getPass()+1)+" Passes");
+				}
 				data.get(v.pos).pass=""+(data.get(v.pos).getPass()+1);
+				}
 			break;
 			}
 			

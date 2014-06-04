@@ -17,7 +17,7 @@
    android:layout_marginRight="15dp"
    android:textSize="15sp"
    android:textColor="#ffcc66"
-   android:text="thingy"/>
+   android:text=""/>
  
 <TextView
    android:id="@+id/textView2"

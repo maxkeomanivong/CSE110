@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,6 +44,8 @@ private static String KEY_ERROR = "error";
   Button bktolog;
   TextView textView2;
 
+  
+  
     /**
      * Called when the activity is first created.
      */
@@ -81,6 +84,17 @@ private static String KEY_ERROR = "error";
 
 
         });}
+    
+    @Override
+    public boolean onKeyDown(int keyCode,KeyEvent event)
+    {
+    	if(keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		startActivityForResult(new Intent(resetpass.getContext(), Login.class),0);
+            finish();
+    	}
+    	return super.onKeyDown(keyCode, event);
+    }
     
 	public void setFonts()
 	{

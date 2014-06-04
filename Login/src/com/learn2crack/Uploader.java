@@ -1,14 +1,33 @@
 package com.learn2crack;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 
 
+
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -24,6 +43,7 @@ public class Uploader {
     int serverResponseCode = 0;
     int dialog = 0;
     String upLoadServerUri = null;
+    String uploadToFileManager = "http://foodobjectorienteddesign.com/poopers.php";
     String uploadFilePath = "";
 	public Uploader(String path, String Serverpath) {
 		// TODO Auto-generated constructor stub
@@ -37,7 +57,7 @@ public class Uploader {
     /**********  File Path *************/
    
       
-    public int uploadFile(String sourceFileUri) {
+    public int uploadFile(String sourceFileUri, String Dish, String Descritption, String Restaurant) {
            
            
           String fileName = sourceFileUri;
@@ -49,13 +69,23 @@ public class Uploader {
           String boundary = "*****";
           int bytesRead, bytesAvailable, bufferSize;
           byte[] buffer;
+          String nameOfFile = null;
           int maxBufferSize = 1 * 1024 * 1024; 
           File sourceFile = new File(sourceFileUri); 
-          //Herbert
+          nameOfFile = sourceFile.getName();
+          //Herbert Bitmap resizie and compresssion, prperation for upload
+          ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		  Bitmap bitmap = BitmapFactory.decodeFile(sourceFile.getPath());
-		  Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 750, 6, false);
-  //End Herbert
+		  Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 900, 700, false);
+		  scaled.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+		  //load the resized bitmap from the output stream to the input stream
+		  ByteArrayInputStream bis = new ByteArrayInputStream(baos.toByteArray());
+		  //End Herbert
+		  
           dialog = ProgressDialog.STYLE_SPINNER; 
+          postData(upLoadServerUri,Dish,Descritption,Restaurant,nameOfFile);
+          upLoadServerUri = uploadToFileManager;
+
           if (!sourceFile.isFile()) { 
                 
                Log.e("uploadFile", "Source File not exist :"
@@ -78,7 +108,6 @@ public class Uploader {
                      // open a URL connection to the Servlet
                    FileInputStream fileInputStream = new FileInputStream(sourceFile);
                    URL url = new URL(upLoadServerUri);
-                    
                    // Open a HTTP  connection to  the URL
                    conn = (HttpURLConnection) url.openConnection(); 
                    conn.setDoInput(true); // Allow Inputs
@@ -100,20 +129,20 @@ public class Uploader {
                    dos.writeBytes(lineEnd);
           
                    // create a buffer of  maximum size
-                   bytesAvailable = fileInputStream.available(); 
+                   bytesAvailable = bis.available(); 
           
                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
                    buffer = new byte[bufferSize];
           
                    // read file and write it into form...
-                   bytesRead = fileInputStream.read(buffer, 0, bufferSize);  
+                   bytesRead = bis.read(buffer, 0, bufferSize);  
                       
                    while (bytesRead > 0) {
                         
                      dos.write(buffer, 0, bufferSize);
-                     bytesAvailable = fileInputStream.available();
+                     bytesAvailable = bis.available();
                      bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                     bytesRead = fileInputStream.read(buffer, 0, bufferSize);   
+                     bytesRead = bis.read(buffer, 0, bufferSize);   
                       
                     }
           
@@ -141,6 +170,8 @@ public class Uploader {
                    }    
                     
                    //close the streams //
+                   baos.close();
+                   bis.close();
                    fileInputStream.close();
                    dos.flush();
                    dos.close();
@@ -175,5 +206,29 @@ public class Uploader {
                
            } // End else block 
          } 
+    
+    public void postData(String sourceFileUri, String Dish, String Descritption, String Restaurant, String Filename) {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(sourceFileUri);
+
+        try {
+            // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("Title", Dish));
+            nameValuePairs.add(new BasicNameValuePair("Location", Restaurant));
+            nameValuePairs.add(new BasicNameValuePair("Description", Descritption));
+            nameValuePairs.add(new BasicNameValuePair("Filename", Filename));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+    }
 
 }

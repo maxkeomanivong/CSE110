@@ -149,7 +149,6 @@ public class ListViewItemListener implements OnItemClickListener{
 		protected void onPostExecute(String[] result) {
 			//mListItems.add(0, "Added new item after refresh...");
 			// Call onRefreshComplete when the list has been refreshed.
-			System.err.println("The name is "+ names.get(0));
 			try{
 				((TextView)layout.findViewById(R.id.textView1)).setText("Restaurant Name >> "+names.get(0));
 				((TextView)layout.findViewById(R.id.textView2)).setText("Address >> "+address.get(0));
