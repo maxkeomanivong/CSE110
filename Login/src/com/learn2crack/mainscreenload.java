@@ -2,14 +2,17 @@ package com.learn2crack;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.learn2crack.*;
 import com.learn2crack.PullToRefreshListView.OnRefreshListener;
+
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
 import java.util.Arrays;
+
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,11 +26,17 @@ public class mainscreenload extends ListActivity {
 	PullToRefreshListView listItems;
 	XMLHandler reader;
 	int counter=1;
-	String RSSfeed = "http://foodobjectorienteddesign.com/feed/datesort.php";
+	String RSSfeed = "http://foodobjectorienteddesign.com/feed/wesfeed/feed.php";
 	ArrayList <String> links = new ArrayList<String>();
 	ArrayList <String> ids = new ArrayList<String>();
 	ArrayList <String> smashes = new ArrayList<String>();
 	ArrayList <String> passes = new ArrayList<String>();
+	ArrayList <String> names = new ArrayList<String>();
+	ArrayList <String> address = new ArrayList<String>();
+	ArrayList <String> resname = new ArrayList<String>();
+	ArrayList <String> time = new ArrayList<String>();
+	ArrayList <String> description = new ArrayList<String>();
+	ArrayList <String> uid = new ArrayList<String>();
 	List<NewsFeedItem> item = new ArrayList<NewsFeedItem>();
 public void set(){
 	
@@ -40,7 +49,7 @@ public void set(){
 		for(int x=0;x<links.size();x++)
         {
         	Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-        	item.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
+        	item.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),resname.get(x),time.get(x),description.get(x),uid.get(x)));
         }
         
         //the adapter for the listview,passing in this, the layout for each row in
@@ -51,7 +60,7 @@ public void set(){
         listItems = (PullToRefreshListView) getListView();
         listItems.setAdapter(adapter);
         listItems.setOnScrollListener(listItems);
-        listItems.setOnItemClickListener(new ListViewItemListener());
+        listItems.setOnItemClickListener(new ListViewItemListener(mainscreenload.this));
         System.err.println("THINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
 		// Set a listener to be invoked when the list should be refreshed.
 		
@@ -115,7 +124,7 @@ class GetDataTask extends AsyncTask<Void, Void, String[]> {
         {
 			counter++;
         	//Log.d(links.get(x), "LINKS ADDED --------MAIN ACTIVITY");
-        	adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x)));
+			adapter.add(new NewsFeedItem(links.get(x),ids.get(x),smashes.get(x),passes.get(x),names.get(x),"","","",uid.get(x)));//,resname.get(x),time.get(x),description.get(x),uid.get(x)));
         }
 		adapter.notifyDataSetChanged();
 		listItems.setCount(counter);

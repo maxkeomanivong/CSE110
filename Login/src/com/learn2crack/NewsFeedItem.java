@@ -1,5 +1,7 @@
 package com.learn2crack;
 
+
+
 import java.io.InputStream;
 
 import android.graphics.Bitmap;
@@ -13,6 +15,11 @@ public class NewsFeedItem {
 		public String name;
 		public String smash;
 		public String pass;
+		public String resname;
+		public String address;
+		public String time;
+		public String description;
+		public String uid;
 		public Bitmap imgMap = null;
 		public Bitmap newBitmap = null;
 		Bitmap scaledBitmap;
@@ -21,21 +28,50 @@ public class NewsFeedItem {
 		float maxImageSize = 650;
 		boolean filter = true;
 		ArrayAdapterCustom adapter;
-		public NewsFeedItem(String img,String id,String s, String p)
+		public NewsFeedItem(String img,String id,String s, String p,String name, String resname,String time,String description,String uid)
 		{
 			this.link=img;		
 			this.id=id;
 			this.smash=s;
 			this.pass=p;
+			this.name=name;
+			this.resname=resname;
+			this.time=time;
+			this.description=description;
+			this.uid=uid;
 		}
 		
 		public String getImg()
 		{
 			return link;
 		}
+		public String getUID()
+		{
+			return uid;
+		}
 		public String getId()
 		{
 			return id;
+		}
+		public String getName()
+		{
+			return name;
+		}
+		public String getAddress()
+		{
+			return address;
+		}
+		public String getResname()
+		{
+			return resname;
+		}
+		public String getTime()
+		{
+			return time;
+		}
+		public String getDescription()
+		{
+			return description;
 		}
 		public int getSmash()
 		{

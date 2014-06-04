@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -88,7 +89,7 @@ public class Register extends Activity {
  * Button which Switches back to the login screen on clicked
  **/
 
-        Button login = (Button) findViewById(R.id.bktologin);
+   /*     Button login = (Button) findViewById(R.id.bktologin);
         login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), Login.class);
@@ -97,7 +98,8 @@ public class Register extends Activity {
             }
 
         });
-
+*/
+        
         /**
          * Register Button click event.
          * A Toast is set to alert when the fields are empty.
@@ -142,7 +144,7 @@ public class Register extends Activity {
           btnRegister.setTypeface(blockFonts);
           registerErrorMsg.setTypeface(blockFonts);
           
-          Button b1 = (Button) findViewById(R.id.bktologin);
+          //Button b1 = (Button) findViewById(R.id.bktologin);
           TextView b2 = (TextView) findViewById(R.id.textView2);
           TextView b3 = (TextView) findViewById(R.id.textView3);
           TextView b4 = (TextView) findViewById(R.id.textView4);
@@ -150,7 +152,7 @@ public class Register extends Activity {
           TextView b6 = (TextView) findViewById(R.id.textView6);
           TextView b7 = (TextView) findViewById(R.id.register_error);
           
-          b1.setTypeface(blockFonts);
+         // b1.setTypeface(blockFonts);
           b2.setTypeface(blockFonts);
           b3.setTypeface(blockFonts);
           b4.setTypeface(blockFonts);
@@ -161,7 +163,16 @@ public class Register extends Activity {
 
  	}
     
-    
+    @Override
+    public boolean onKeyDown(int keyCode,KeyEvent event)
+    {
+    	if(keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		startActivityForResult(new Intent(btnRegister.getContext(), Login.class),0);
+            finish();
+    	}
+    	return super.onKeyDown(keyCode, event);
+    }
     
     /**
      * Async Task to check whether internet connection is working

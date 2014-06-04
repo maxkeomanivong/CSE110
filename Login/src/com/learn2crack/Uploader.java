@@ -8,7 +8,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
+
+
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -47,6 +51,10 @@ public class Uploader {
           byte[] buffer;
           int maxBufferSize = 1 * 1024 * 1024; 
           File sourceFile = new File(sourceFileUri); 
+          //Herbert
+		  Bitmap bitmap = BitmapFactory.decodeFile(sourceFile.getPath());
+		  Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 750, 6, false);
+  //End Herbert
           dialog = ProgressDialog.STYLE_SPINNER; 
           if (!sourceFile.isFile()) { 
                 

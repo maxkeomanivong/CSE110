@@ -44,8 +44,8 @@ import java.net.URL;
 
 public class Login extends Activity {
 
-    Button btnLogin;
-    Button Btnregister;
+    Button register;
+    Button login;
     Button passreset;
     EditText inputEmail;
     EditText inputPassword;
@@ -78,8 +78,8 @@ public class Login extends Activity {
         
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.pword);
-        Btnregister = (Button) findViewById(R.id.registerbtn);
-        btnLogin = (Button) findViewById(R.id.login);
+        login = (Button) findViewById(R.id.login);
+        register = (Button) findViewById(R.id.registerbtn);
         passreset = (Button)findViewById(R.id.passres);
         loginErrorMsg = (TextView) findViewById(R.id.loginErrorMsg);
 
@@ -103,7 +103,7 @@ public class Login extends Activity {
 
         setFonts();
         
-        Btnregister.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), Register.class);
                 startActivityForResult(myIntent, 0);
@@ -114,7 +114,7 @@ public class Login extends Activity {
  * Login button click event
  * A Toast is set to alert when the Email and Password field is empty
  **/
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        register.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
 
@@ -159,8 +159,7 @@ public class Login extends Activity {
         pass.setTypeface(blockFonts);
         TextView repass = (TextView) findViewById(R.id.loginErrorMsg);
         repass.setTypeface(blockFonts);
-        CheckBox box = (CheckBox) findViewById(R.id.checkBox1);
-        box.setTypeface(blockFonts);
+
 	}
 
 	@Override

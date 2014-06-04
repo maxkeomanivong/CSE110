@@ -6,6 +6,17 @@
     android:descendantFocusability="blocksDescendants" 
      >
 
+                <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:layout_alignBottom="@+id/smash2"
+		            android:id="@+id/user"
+		            android:layout_marginLeft="5dp"
+		            android:text="User"
+		            android:textSize="16sp"
+		            android:textColor="#ffa500" />
+    
               <Button
 		            android:layout_width="40dp"
 		            android:layout_height="40dp"
@@ -54,20 +65,7 @@
 		            android:textColor="#ffa500"
 		            android:text="Location: My Kitchen" />
                 
-                <TextView
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_below="@+id/tbox4"
-		            android:layout_alignParentRight="true"
-		            android:id="@+id/tbox5"
-		            android:layout_marginTop="5dp"
-		            android:layout_marginLeft="5dp"
-		            android:layout_marginRight="5dp"
-		            android:padding="6dp"
-		            android:textSize="17sp"
-		            android:textColor="#ffa500"
-		            android:background="@drawable/textbox9"
-		            android:text="#Baw818: Soooo Bawssssssss!!!!!!!!!!" />
+
 
 
 </RelativeLayout>
