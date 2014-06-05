@@ -145,11 +145,10 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 				v.smashedTrig=true;
 				v.pasedTrig=false;
 				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/like2.php?user_id=2&food_id="+data.get(v.pos).getId());
-				Toast.makeText(myView.getContext(), "ID number is "+data.get(v.pos).getId()+". ", Toast.LENGTH_SHORT).show();
 				if(data.get(v.pos).getPass()!=0)
 				{
 					v.s.setText(""+(data.get(v.pos).getSmash()+1)+" Smashes | "+(data.get(v.pos).getPass()-1)+" Passes");
-					data.get(v.pos).smash=""+(data.get(v.pos).getPass()-1);
+					data.get(v.pos).pass=""+(data.get(v.pos).getPass()-1);
 				}
 				else{
 				v.s.setText(""+(data.get(v.pos).getSmash()+1)+" Smashes | "+data.get(v.pos).getPass()+" Passes");
@@ -163,7 +162,6 @@ public class ArrayAdapterCustom extends ArrayAdapter<NewsFeedItem> {
 				v.pasedTrig=true;
 				v.smashedTrig=false;
 				new GetDataTask3().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://foodobjectorienteddesign.com/dislike2.php?user_id=2&food_id="+data.get(v.pos).getId());
-				Toast.makeText(myView.getContext(), "ID number is "+R.id.pass2+". ", Toast.LENGTH_SHORT).show();
 				if(data.get(v.pos).getSmash()!=0){
 					v.s.setText(""+(data.get(v.pos).getSmash()-1)+" Smashes | "+(data.get(v.pos).getPass()+1)+" Passes");
 					data.get(v.pos).smash=""+(data.get(v.pos).getSmash()-1);

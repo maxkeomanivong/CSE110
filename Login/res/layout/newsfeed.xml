@@ -13,8 +13,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/search"
-            android:text="Search"
+            android:background="@drawable/changepassbar"
+            android:text="Change Password"
             android:textColor="#ffffff"
             android:gravity="center_horizontal|center_vertical"
             android:id="@+id/slideoutb1"/>

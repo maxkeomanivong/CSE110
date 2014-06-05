@@ -62,8 +62,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/loginErrorMsg"
-            android:textColor="#ff0000"
-            android:layout_below="@id/pword"
+            android:textColor="#000000"
+            android:textSize="21sp"
+            android:layout_below="@id/login"
             android:layout_centerHorizontal="true"
             />    
     
